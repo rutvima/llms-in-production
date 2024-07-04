@@ -6,6 +6,9 @@ services:
   streamlit-app:
     # Build the Docker image using the Dockerfile in the current directory
     build: .
+    # Set the endpoint for us to send traces to
+    environment:
+      - PHOENIX_COLLECTOR_ENDPOINT=http://phoenix:6006
     # Map port 8080 of the container to port 8080 on the host
     # This allows the Streamlit app to be accessed from the host machine
     ports:
@@ -16,3 +19,7 @@ services:
     volumes:
       - ./src:/app/src
       - ./.streamlit:/app/.streamlit
+  phoenix:
+    image: arizephoenix/phoenix:latest
+    ports:
+      - "6006:6006"
